@@ -1,6 +1,9 @@
 <?php
 
-function servidorHttp(){
-    echo "1. Servidor HTTP recebeu a requisição. <br>";
-    router();
+/** Simula a entrada de uma requisição no servidor HTTP. */
+function servidorHttp(): array
+{
+    // O histórico será compartilhado por todas as camadas da aplicação.
+    $etapas = ['Servidor HTTP recebeu a requisição.'];
+    return router('/usuarios', 'id-123', $etapas);
 }

@@ -1,15 +1,17 @@
 <?php
 
+/** Verifica se a requisição tem permissão para continuar. */
+function middleware(string $rota, string $parametro, array &$etapas): array
+{
+    $etapas[] = 'Middleware está verificando a requisição.';
 
-
-function middleware($rota){
-    echo "3. Middleware está verificando a requisição. <br>";
+    // Em um sistema real, esta condição validaria login ou autorização.
     $permitido = true;
-
-    if ($permitido){
-        echo "4. Middleware permitiu continuar. <br>"
-        dispatcher($rota);
-    } else {
-        echo "4. Middleware bloqueou a requisição. <br>"
+    if (!$permitido) {
+        $etapas[] = 'Middleware bloqueou a requisição.';
+        return ['sucesso' => false, 'mensagem' => 'Acesso não autorizado.', 'usuarios' => [], 'etapas' => $etapas];
     }
+
+    $etapas[] = 'Middleware permitiu continuar.';
+    return dispatcher($rota, $parametro, $etapas);
 }

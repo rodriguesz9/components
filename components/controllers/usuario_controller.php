@@ -1,12 +1,18 @@
 <?php
 
+/** Coordena a consulta e prepara a resposta para a página. */
+function usuarioController(string $parametro, array &$etapas): array
+{
+    $etapas[] = 'Controller recebeu a requisição.';
 
-    function usuarioController(){
-        echo "6. Controller recebeu a requisição .<br>";
-        $usuarios = usuarioService();
-        echo "8. Controller recebeu os dados do Service. <br>";
-        echo "Usuários encontrados: <br>";
-        foreach($usuarios as $usuarios){
-            echo "-". $usuario . "<br>";
-        }
-    }
+    // O controller pede os dados ao service sem conhecer sua regra interna.
+    $usuarios = usuarioService();
+    $etapas[] = 'Controller recebeu os dados do Service.';
+
+    return [
+        'sucesso' => true,
+        'mensagem' => "Consulta concluída para o parâmetro {$parametro}.",
+        'usuarios' => $usuarios,
+        'etapas' => $etapas,
+    ];
+}
